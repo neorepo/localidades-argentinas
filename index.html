@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Localidades de Provincias Argentinas</h1>
+    <div id="demo"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let requestURL = 'https://mdn.github.io/learning-area/javascript/oojs/json/superheroes.json';
+            let request = new XMLHttpRequest();
+            request.open('GET', requestURL);
+            request.responseType = 'json';
+            request.send();
+            request.onload = function () {
+                const localidades = request.response;
+                console.log(localidades);
+            }
+        });
+    </script>
+</body>
+
+</html>
