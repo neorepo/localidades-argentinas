@@ -1,1 +1,1 @@
-Localidades de Provincia en formato json
+Localidades de Provincias Argentinas en formato json.
