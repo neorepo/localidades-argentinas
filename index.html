@@ -1,27 +1,135 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 
 <head>
     <meta charset="UTF-8">
+    <meta name="description" content="Dynamic Select">
+    <meta name="keywords" content="HTML, CSS, JavaScript, Ajax, Json">
+    <meta name="author" content="Julio Cesar">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <title>Localidades Argentinas</title>
 </head>
 
 <body>
-    <h1>Localidades de Provincias Argentinas</h1>
-    <div id="demo"></div>
+    <h1>Select Dinámico</h1>
+    <p>Localidades de provincias (República Argentina)</p>
+
+    <div class="mb-3">
+        <label for="provincia">Provincia:</label>
+        <select name="provincia" id="provincia" class="form-select form-select-lg" required>
+            <option value="">- Seleccionar -</option>
+            <option value="BUENOS AIRES">BUENOS AIRES</option>
+            <option value="CATAMARCA">CATAMARCA</option>
+            <option value="CHACO">CHACO</option>
+            <option value="CHUBUT">CHUBUT</option>
+            <!-- <option value="CIUDAD AUTONOMA DE BUENOS AIRES">CIUDAD AUTONOMA DE BUENOS AIRES</option> -->
+            <option value="CORDOBA">CORDOBA</option>
+            <option value="CORRIENTES">CORRIENTES</option>
+            <option value="ENTRE RIOS">ENTRE RIOS</option>
+            <option value="FORMOSA">FORMOSA</option>
+            <option value="JUJUY">JUJUY</option>
+            <option value="LA PAMPA">LA PAMPA</option>
+            <option value="LA RIOJA">LA RIOJA</option>
+            <option value="MENDOZA">MENDOZA</option>
+            <option value="MISIONES">MISIONES</option>
+            <option value="NEUQUEN">NEUQUEN</option>
+            <option value="RIO NEGRO">RIO NEGRO</option>
+            <option value="SALTA">SALTA</option>
+            <option value="SAN JUAN">SAN JUAN</option>
+            <option value="SAN LUIS">SAN LUIS</option>
+            <option value="SANTA CRUZ">SANTA CRUZ</option>
+            <option value="SANTA FE">SANTA FE</option>
+            <option value="SANTIAGO DEL ESTERO">SANTIAGO DEL ESTERO</option>
+            <option value="TIERRA DEL FUEGO">TIERRA DEL FUEGO</option>
+            <option value="TUCUMAN">TUCUMAN</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="localidad">Localidad:</label>
+        <select name="localidad" id="localidad" class="form-select form-select-lg" required>
+            <option value="">- Seleccionar -</option>
+        </select>
+    </div>
+
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            let requestURL = 'https://mdn.github.io/learning-area/javascript/oojs/json/superheroes.json';
-            let request = new XMLHttpRequest();
-            request.open('GET', requestURL);
-            request.responseType = 'json';
-            request.send();
-            request.onload = function () {
-                const localidades = request.response;
-                console.log(localidades);
-            }
+        document.addEventListener('DOMContentLoaded', (e) => {
+            initOnchange();
         });
+
+        function initOnchange() {
+            const selectProvincia = document.querySelector('select#provincia');
+            if (selectProvincia) {
+                selectProvincia.onchange = function (e) { initRequest(this, e); }
+            }
+        }
+
+        function initRequest(objSelect, e) {
+            if (objSelect.selectedIndex != 0) {
+                let provincia = objSelect.value.toLowerCase();
+                provincia = provincia.replaceAll(" ", "-");
+                const method = 'GET';
+                const url = 'https://neorepo.github.io/localidades-argentinas/' + provincia + '.json';
+                fetchResource(method, url);
+            } else {
+                removeOptions(document.querySelector('select#localidad'));
+            }
+        }
+
+        // https://xhr.spec.whatwg.org/
+        function fetchResource(method, url) {
+            var client = new XMLHttpRequest();
+            client.onload = handler;
+            client.open(method, url + ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime());
+            client.send();
+        }
+
+        // https://www.w3.org/TR/WCAG20-TECHS/SCR19.html
+        function processData(response) {
+            const selectLocalidad = document.querySelector('select#localidad');
+            if (selectLocalidad) {
+                const data = JSON.parse(response);
+                const fragment = document.createDocumentFragment();
+                removeOptions(selectLocalidad);
+                let opt;
+                data.forEach(obj => {
+                    opt = document.createElement('option');
+                    opt.value = obj.id;
+                    opt.text = obj.nombre + ' (' + obj.cp + ')';
+                    try {
+                        fragment.add(opt);
+                    } catch (e) {
+                        fragment.appendChild(opt);
+                    }
+                });
+                selectLocalidad.appendChild(fragment);
+            }
+        }
+
+        function removeOptions(objSelect) {
+            // remove the current options from the element select
+            // objSelect.options.length = 0;
+            let len = objSelect.options.length;
+            while (len-- > 0) {
+                objSelect.remove(0);
+            }
+            const opt = document.createElement('option');
+            opt.value = '';
+            opt.text = '- Seleccionar -';
+            objSelect.appendChild(opt);
+        }
+
+        function handler() {
+            if (this.status == 200 && this.responseText != null) {
+                // success!
+                processData(this.responseText);
+            } else {
+                // something went wrong
+                console.log('Something went wrong!')
+            }
+        }
     </script>
 </body>
 
