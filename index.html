@@ -13,46 +13,57 @@
 </head>
 
 <body>
-    <h1>Select Dinámico</h1>
-    <p>Localidades de provincias (República Argentina)</p>
 
-    <div class="mb-3">
-        <label for="provincia" class="form-label">Provincia:</label>
-        <select name="provincia" id="provincia" class="form-select form-select-lg" required>
-            <option value="">- Seleccionar -</option>
-            <option value="BUENOS AIRES">BUENOS AIRES</option>
-            <option value="CATAMARCA">CATAMARCA</option>
-            <option value="CHACO">CHACO</option>
-            <option value="CHUBUT">CHUBUT</option>
-            <!-- <option value="CIUDAD AUTONOMA DE BUENOS AIRES">CIUDAD AUTONOMA DE BUENOS AIRES</option> -->
-            <option value="CORDOBA">CORDOBA</option>
-            <option value="CORRIENTES">CORRIENTES</option>
-            <option value="ENTRE RIOS">ENTRE RIOS</option>
-            <option value="FORMOSA">FORMOSA</option>
-            <option value="JUJUY">JUJUY</option>
-            <option value="LA PAMPA">LA PAMPA</option>
-            <option value="LA RIOJA">LA RIOJA</option>
-            <option value="MENDOZA">MENDOZA</option>
-            <option value="MISIONES">MISIONES</option>
-            <option value="NEUQUEN">NEUQUEN</option>
-            <option value="RIO NEGRO">RIO NEGRO</option>
-            <option value="SALTA">SALTA</option>
-            <option value="SAN JUAN">SAN JUAN</option>
-            <option value="SAN LUIS">SAN LUIS</option>
-            <option value="SANTA CRUZ">SANTA CRUZ</option>
-            <option value="SANTA FE">SANTA FE</option>
-            <option value="SANTIAGO DEL ESTERO">SANTIAGO DEL ESTERO</option>
-            <option value="TIERRA DEL FUEGO">TIERRA DEL FUEGO</option>
-            <option value="TUCUMAN">TUCUMAN</option>
-        </select>
-    </div>
+    <main class="container my-3">
 
-    <div class="mb-3">
-        <label for="localidad" class="form-label">Localidad:</label>
-        <select name="localidad" id="localidad" class="form-select form-select-lg" required>
-            <option value="">- Seleccionar -</option>
-        </select>
-    </div>
+        <div class="text-center">
+            <h1>Select Dinámico</h1>
+            <p>Localidades de provincias (República Argentina)</p>
+        </div>
+
+        <div class="row justify-content-md-center">
+            <div class="col-md-5">
+                <div class="mb-3">
+                    <label for="provincia" class="form-label">Provincia:</label>
+                    <select name="provincia" id="provincia" class="form-select form-select-lg" required>
+                        <option value="">- Seleccione una provincia -</option>
+                        <option value="BUENOS AIRES">BUENOS AIRES</option>
+                        <option value="CATAMARCA">CATAMARCA</option>
+                        <option value="CHACO">CHACO</option>
+                        <option value="CHUBUT">CHUBUT</option>
+                        <!-- <option value="CIUDAD AUTONOMA DE BUENOS AIRES">CIUDAD AUTONOMA DE BUENOS AIRES</option> -->
+                        <option value="CORDOBA">CORDOBA</option>
+                        <option value="CORRIENTES">CORRIENTES</option>
+                        <option value="ENTRE RIOS">ENTRE RIOS</option>
+                        <option value="FORMOSA">FORMOSA</option>
+                        <option value="JUJUY">JUJUY</option>
+                        <option value="LA PAMPA">LA PAMPA</option>
+                        <option value="LA RIOJA">LA RIOJA</option>
+                        <option value="MENDOZA">MENDOZA</option>
+                        <option value="MISIONES">MISIONES</option>
+                        <option value="NEUQUEN">NEUQUEN</option>
+                        <option value="RIO NEGRO">RIO NEGRO</option>
+                        <option value="SALTA">SALTA</option>
+                        <option value="SAN JUAN">SAN JUAN</option>
+                        <option value="SAN LUIS">SAN LUIS</option>
+                        <option value="SANTA CRUZ">SANTA CRUZ</option>
+                        <option value="SANTA FE">SANTA FE</option>
+                        <option value="SANTIAGO DEL ESTERO">SANTIAGO DEL ESTERO</option>
+                        <option value="TIERRA DEL FUEGO">TIERRA DEL FUEGO</option>
+                        <option value="TUCUMAN">TUCUMAN</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="localidad" class="form-label">Localidad:</label>
+                    <select name="localidad" id="localidad" class="form-select form-select-lg" required>
+                        <option value="">- Seleccione una localidad -</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+    </main>
 
     <script>
         document.addEventListener('DOMContentLoaded', (e) => {
@@ -78,7 +89,6 @@
             }
         }
 
-        // https://xhr.spec.whatwg.org/
         function fetchResource(method, url) {
             var client = new XMLHttpRequest();
             client.onload = handler;
@@ -108,8 +118,8 @@
             }
         }
 
+        // remove the current options from the element select
         function removeOptions(objSelect) {
-            // remove the current options from the element select
             // objSelect.options.length = 0;
             let len = objSelect.options.length;
             while (len-- > 0) {
@@ -117,7 +127,7 @@
             }
             const opt = document.createElement('option');
             opt.value = '';
-            opt.text = '- Seleccionar -';
+            opt.text = '- Seleccione una localidad -';
             objSelect.appendChild(opt);
         }
 
