@@ -75,7 +75,7 @@
     <script>
         $(document).ready(function () {
             $('#provincia').select2({
-                theme: "classic",
+                // theme: "classic",
                 language: {
                     noResults: function () { return "No se encontraron resultados" }
                 }
@@ -103,7 +103,7 @@
             initOnchangeLocalidad();
         });
 
-        function initOnchangeLocalidad(params) {
+        function initOnchangeLocalidad() {
             if (selectLocalidad) {
                 selectLocalidad.onchange = function (e) { mostrarInfo(this, e); }
             }
