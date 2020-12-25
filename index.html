@@ -122,13 +122,13 @@
         function removeOptions(objSelect) {
             // objSelect.options.length = 0;
             let len = objSelect.options.length;
-            while (len-- > 0) {
-                objSelect.remove(0);
+            while (len-- > 1) {
+                objSelect.remove(1);
             }
-            const opt = document.createElement('option');
+            /*const opt = document.createElement('option');
             opt.value = '';
             opt.text = '- Seleccione una localidad -';
-            objSelect.appendChild(opt);
+            objSelect.appendChild(opt);*/
         }
 
         function handler() {
