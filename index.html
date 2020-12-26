@@ -164,7 +164,8 @@
                 let provincia = objSelect.value.toLowerCase();
                 provincia = provincia.replaceAll(" ", "-");
                 const method = 'GET';
-                const url = 'https://neorepo.github.io/localidades-argentinas/' + provincia + '.json';
+                // const url = 'https://neorepo.github.io/localidades-argentinas/' + provincia + '.json';
+                const url = provincia + '.json';
                 fetchResource(method, url);
             } else {
                 removeOptions(selectLocalidad);
