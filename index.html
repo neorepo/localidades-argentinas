@@ -3,8 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="Dynamic Select">
-    <meta name="keywords" content="HTML, CSS, JavaScript, Ajax, Json">
+    <meta name="description" content="Dynamic Select for ZIP CODE">
+    <meta name="keywords" content="Códigos postales de localidades argentinas, CÓDIGO POSTAL, CPA, Códigos Postales, HTML, CSS, JavaScript, Ajax, Json">
     <meta name="author" content="Julio Cesar">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Select2 CSS -->
@@ -55,7 +55,7 @@
         </div>
     </nav>
 
-    <main class="container my-5">
+    <main class="container my-5 p-3">
 
         <div class="mb-3">
             <h1 class="h2">Códigos Postales de Localidades Argentinas</h1>
@@ -64,7 +64,7 @@
         <div class="mb-3">
             <label for="provincia" class="form-label">Provincia:</label>
             <select name="provincia" id="provincia" class="form-select form-select-lg" required>
-                <option value="">- Seleccione una provincia -</option>
+                <option value="" disabled>- Seleccione una provincia -</option>
                 <option value="BUENOS AIRES">BUENOS AIRES</option>
                 <option value="CATAMARCA">CATAMARCA</option>
                 <option value="CHACO">CHACO</option>
@@ -95,10 +95,9 @@
         <div class="mb-3">
             <label for="localidad" class="form-label">Localidad:</label>
             <select name="localidad" id="localidad" class="form-select form-select-lg" required>
-                <option value="">- Seleccione una localidad -</option>
+                <option value="" disabled>- Seleccione una localidad -</option>
             </select>
         </div>
-
 
         <div class="text-center my-5" id="output"></div>
 
