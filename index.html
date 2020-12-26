@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="Dynamic Select for ZIP CODE">
-    <meta name="keywords" content="Códigos postales de localidades argentinas, CÓDIGO POSTAL, CPA, Códigos Postales, HTML, CSS, JavaScript, Ajax, Json">
+    <meta name="keywords"
+        content="Códigos postales de localidades argentinas, CÓDIGO POSTAL, CPA, Códigos Postales, HTML, CSS, JavaScript, Ajax, Json">
     <meta name="author" content="Julio Cesar">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Select2 CSS -->
@@ -144,7 +145,7 @@
                 const opt = data[idx - 1];
                 if (output) {
                     output.classList.add("output");
-                    output.innerHTML = `<h3>${opt.nombre}</h3><h4>Código postal: ${opt.cp}</h4>`;
+                    output.innerHTML = `<h3>${opt.nombre}, ${selectProvincia.value}</h3><h4>Código postal: ${opt.cp}</h4>`;
                 }
             } else {
                 output.classList.remove("output");
