@@ -98,7 +98,12 @@
     </main>
 
     <footer class="mt-auto py-3 text-center text-muted">
-        <p><small>Copyright © 2020 | Powered by Julio Cesar</small></p>
+        <p>
+            <small>
+                Copyright © 2020 | Powered by Julio Cesar <br>
+                <a href="https://github.com/neorepo/localidades-argentinas" style="text-decoration: none;">GitHub</a>
+            </small>
+        </p>
     </footer>
 
     <script>
@@ -169,6 +174,9 @@
                 fetchResource(method, url);
             } else {
                 removeOptions(selectLocalidad);
+                // Removemos los datos de muestra, si los hay
+                output.classList.remove("output");
+                output.innerHTML = '';
             }
         }
 
@@ -185,6 +193,9 @@
                 data = JSON.parse(response);
                 const fragment = document.createDocumentFragment();
                 removeOptions(selectLocalidad);
+                // Removemos los datos de muestra, cada vez que se cambie de provincia
+                output.classList.remove("output");
+                output.innerHTML = '';
                 let opt;
                 data.forEach(obj => {
                     opt = document.createElement('option');
@@ -202,15 +213,10 @@
 
         // remove the current options from the element select
         function removeOptions(objSelect) {
-            // objSelect.options.length = 0;
             let len = objSelect.options.length;
             while (len-- > 1) {
                 objSelect.remove(1);
             }
-
-            output.classList.remove("output");
-            // Removemos los datos de muestra
-            output.innerHTML = '';
         }
 
         function handler() {
