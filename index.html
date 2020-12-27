@@ -101,10 +101,15 @@
         <p>
             <small>
                 Copyright © 2020 | Powered by Julio Cesar<br>
-                <a href="https://github.com/neorepo/localidades-argentinas" target="_blank" style="text-decoration: none;">GitHub</a>
+                <a href="https://github.com/neorepo/localidades-argentinas" target="_blank"
+                    style="text-decoration: none;">GitHub</a>
             </small>
         </p>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
 
     <script>
         $(document).ready(function () {
@@ -169,8 +174,9 @@
                 let provincia = objSelect.value.toLowerCase();
                 provincia = provincia.replaceAll(" ", "-");
                 const method = 'GET';
-                // const url = 'https://neorepo.github.io/localidades-argentinas/' + provincia + '.json';
-                const url = provincia + '.json';
+                // Para poder probar la app en local
+                const url = 'https://neorepo.github.io/localidades-argentinas/' + provincia + '.json';
+                // const url = provincia + '.json';
                 fetchResource(method, url);
             } else {
                 removeOptions(selectLocalidad);
@@ -225,9 +231,16 @@
                 processData(this.responseText);
             } else {
                 // something went wrong
-                console.log('Something went wrong!')
+                console.log('Something went wrong!');
+                if (output) {
+                    output.innerHTML = `<div class="alert alert-primary alert-dismissible fade show" role="alert">
+                        No fue posible realizar la busqueda en este momento. Por favor, inténtalo nuevamente.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>`;
+                }
             }
         }
+
     </script>
 </body>
 
