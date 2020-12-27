@@ -107,14 +107,9 @@
         </p>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
-        crossorigin="anonymous"></script>
-
     <script>
         $(document).ready(function () {
             $('#provincia').select2({
-                // theme: "classic",
                 language: {
                     noResults: function () { return "No se encontraron resultados" }
                 }
@@ -126,9 +121,9 @@
                 minimumInputLength: 3,
                 language: {
                     inputTooShort: function (e) {
-                        var n = e.minimum - e.input.length, r = "Por favor, introduzca " + n + " car"; return r += 1 == n ? "ácter" : "acteres"
+                        var n = e.minimum - e.input.length, r = "Por favor, introduzca " + n + " car"; return r += 1 == n ? "ácter" : "acteres";
                     },
-                    noResults: function () { return "No se encontraron resultados" }
+                    noResults: function () { return "No se encontraron resultados"; }
                 }
             });
         });
@@ -137,6 +132,11 @@
         const selectLocalidad = document.querySelector('select#localidad');
         const output = document.querySelector("#output");
         let data = [];
+
+        const client = new XMLHttpRequest();
+        const method = 'GET';
+
+        const fragment = document.createDocumentFragment();
 
         document.addEventListener('DOMContentLoaded', (e) => {
             initOnchangeProvincia();
@@ -150,9 +150,9 @@
         }
 
         function mostrarInfo(objSelect, e) {
-            const idx = objSelect.selectedIndex;
+            let idx = objSelect.selectedIndex;
             if (idx != 0) {
-                const opt = data[idx - 1];
+                let opt = data[idx - 1];
                 if (output) {
                     output.classList.add("output");
                     output.innerHTML = `<h3>${opt.nombre}, ${selectProvincia.value}</h3><h4>Código postal: ${opt.cp}</h4>`;
@@ -173,9 +173,8 @@
             if (objSelect.selectedIndex != 0) {
                 let provincia = objSelect.value.toLowerCase();
                 provincia = provincia.replaceAll(" ", "-");
-                const method = 'GET';
-                // Para poder probar la app en local
-                const url = 'https://neorepo.github.io/localidades-argentinas/' + provincia + '.json';
+                // Para poder probar la app en local utilizamos la url absoluta
+                let url = 'https://neorepo.github.io/localidades-argentinas/' + provincia + '.json';
                 // const url = provincia + '.json';
                 fetchResource(method, url);
             } else {
@@ -186,8 +185,9 @@
             }
         }
 
+        
+
         function fetchResource(method, url) {
-            var client = new XMLHttpRequest();
             client.onload = handler;
             client.open(method, url + ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime());
             client.send();
@@ -197,7 +197,6 @@
         function processData(response) {
             if (selectLocalidad) {
                 data = JSON.parse(response);
-                const fragment = document.createDocumentFragment();
                 removeOptions(selectLocalidad);
                 // Removemos los datos de muestra, cada vez que se cambie de provincia
                 output.classList.remove("output");
@@ -232,12 +231,12 @@
             } else {
                 // something went wrong
                 console.log('Something went wrong!');
-                if (output) {
+                /*if (output) {
                     output.innerHTML = `<div class="alert alert-primary alert-dismissible fade show" role="alert">
                         No fue posible realizar la busqueda en este momento. Por favor, inténtalo nuevamente.
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>`;
-                }
+                }*/
             }
         }
 
