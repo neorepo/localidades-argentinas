@@ -57,7 +57,7 @@
 
         <div class="mb-3">
             <label for="provincia" class="form-label">Provincia:</label>
-            <select name="provincia" id="provincia" class="form-select form-select-lg" required>
+            <select name="provincia" id="provincia" class="form-select" required>
                 <option value="">- Seleccione una provincia -</option>
                 <option value="BUENOS AIRES">BUENOS AIRES</option>
                 <option value="CATAMARCA">CATAMARCA</option>
@@ -88,7 +88,7 @@
 
         <div class="mb-3">
             <label for="localidad" class="form-label">Localidad:</label>
-            <select name="localidad" id="localidad" class="form-select form-select-lg" required>
+            <select name="localidad" id="localidad" class="form-select" required>
                 <option value="">- Seleccione una localidad -</option>
             </select>
         </div>
@@ -152,7 +152,7 @@
         function mostrarInfo(objSelect, e) {
             let idx = objSelect.selectedIndex;
             if (idx != 0) {
-                let opt = data[idx - 1];
+                const opt = data[idx - 1];
                 if (output) {
                     output.classList.add("output");
                     output.innerHTML = `<h3>${opt.nombre}, ${selectProvincia.value}</h3><h4>Código postal: ${opt.cp}</h4>`;
@@ -165,16 +165,16 @@
 
         function initOnchangeProvincia() {
             if (selectProvincia) {
-                selectProvincia.onchange = function (e) { initRequest(this, e); }
+                selectProvincia.onchange = function (e) { return handleChangeProvincia(this, e); }
             }
         }
 
-        function initRequest(objSelect, e) {
+        function handleChangeProvincia(objSelect, e) {
             if (objSelect.selectedIndex != 0) {
-                let provincia = objSelect.value.toLowerCase();
-                provincia = provincia.replaceAll(" ", "-");
+                let provincia = objSelect.value;
+                provincia = provincia.replaceAll(" ", "-").toLowerCase();
                 // Para poder probar la app en local utilizamos la url absoluta
-                let url = 'https://neorepo.github.io/localidades-argentinas/' + provincia + '.json';
+                const url = 'https://neorepo.github.io/localidades-argentinas/' + provincia + '.json';
                 // const url = provincia + '.json';
                 fetchResource(method, url);
             } else {
@@ -185,7 +185,7 @@
             }
         }
 
-        
+
 
         function fetchResource(method, url) {
             client.onload = handler;
@@ -219,9 +219,7 @@
         // remove the current options from the element select
         function removeOptions(objSelect) {
             let len = objSelect.options.length;
-            while (len-- > 1) {
-                objSelect.remove(1);
-            }
+            while (len-- > 1) objSelect.remove(1);
         }
 
         function handler() {
