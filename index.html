@@ -52,11 +52,10 @@
 
     <nav class="navbar navbar-expand-md navbar-dark" style="background-color: #37BBED;">
         <div class="container-fluid">
-            <!-- <a class="navbar-brand" href="#">Navbar</a> -->
-            <span class="navbar-brand" style="font-weight: bold;text-transform: uppercase;">
-                <img src="location.png" alt="Imagen de ubicación" height="30" class="d-inline-block align-top">
+            <a class="navbar-brand" href="#" style="font-weight: 500;">
+                <img src="location.png" width="30" height="30" class="d-inline-block align-top" alt="Imagen de icono de ubicación" loading="lazy">
                 Buscador de Códigos Postales
-            </span>
+            </a>
         </div>
     </nav>
 
@@ -214,7 +213,7 @@
                 // Removemos los datos de muestra, cada vez que se cambie de provincia
                 output.classList.remove("output");
                 output.innerHTML = '';
-                
+
                 let opt;
                 data.forEach(obj => {
                     opt = document.createElement('option');
