@@ -162,11 +162,11 @@
 
         function initChangeLocalidad(params) {
             if (selectLocalidad) {
-                selectLocalidad.onchange = function (e) { mostrarInfo(this, e); }
+                selectLocalidad.onchange = function (e) { handleChangeLocalidad(this, e); }
             }
         }
 
-        function mostrarInfo(objSelect, e) {
+        function handleChangeLocalidad(objSelect, e) {
             let idx = objSelect.selectedIndex;
             let message = '';
             let flag = false;
@@ -175,10 +175,10 @@
                 message += `<h3>${obj.nombre}, ${selectProvincia.value}</h3><h4>Código postal: ${obj.cp}</h4>`;
                 flag = true;
             }
-            salida(message, flag);
+            mostrarInfo(message, flag);
         }
 
-        function salida(message, flag) {
+        function mostrarInfo(message, flag) {
             if (output) {
                 output.innerHTML = message;
                 if (flag) {
@@ -206,7 +206,7 @@
             } else {
                 removeOptions(selectLocalidad);
                 // Removemos los datos de muestra, si los hay
-                salida('', false);
+                mostrarInfo('', false);
             }
         }
 
@@ -223,7 +223,7 @@
                 // Si existe el select, removemos opciones, si las hay
                 removeOptions(selectLocalidad);
                 // Removemos los datos de muestra, cada vez que se cambie de provincia
-                salida('', false);
+                mostrarInfo('', false);
                 // Parseamos la respuesta del servidor
                 data = JSON.parse(response);
                 // Creamos opciones con los datos provistos
