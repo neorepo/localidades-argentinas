@@ -13,17 +13,20 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 
     <!-- select2-bootstrap4-theme -->
-    <link href="https://raw.githack.com/ttskch/select2-bootstrap4-theme/master/dist/select2-bootstrap4.min.css" rel="stylesheet">
+    <link href="https://raw.githack.com/ttskch/select2-bootstrap4-theme/master/dist/select2-bootstrap4.min.css"
+        rel="stylesheet">
 
     <!-- Jquery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
-    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
+
     <!-- Select2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-    
+
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">    
-    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
     <!-- Favicon -->
     <link rel="icon" href="location.png" sizes="16x16 32x32" type="image/png">
 
@@ -41,7 +44,8 @@
             background-color: #f3faff;
         }
 
-        .form-control:focus, .custom-select:focus {
+        .form-control:focus,
+        .custom-select:focus {
             border-color: #0366d6;
         }
     </style>
@@ -53,7 +57,8 @@
     <nav class="navbar navbar-expand-md navbar-dark" style="background-color: #37BBED;">
         <div class="container-fluid">
             <a class="navbar-brand" href="#" style="font-weight: 500;">
-                <img src="location.png" width="30" height="30" class="d-inline-block align-top" alt="Imagen de icono de ubicación" loading="lazy">
+                <img src="location.png" width="30" height="30" class="d-inline-block align-top"
+                    alt="Imagen de icono de ubicación" loading="lazy">
                 Buscador de Códigos Postales
             </a>
         </div>
@@ -145,10 +150,8 @@
         const selectProvincia = document.querySelector('select#provincia');
         const selectLocalidad = document.querySelector('select#localidad');
         const output = document.querySelector("#output");
-        let data = [];
 
-        const client = new XMLHttpRequest();
-        const method = 'GET';
+        let data = [];
 
         const fragment = document.createDocumentFragment();
 
@@ -190,7 +193,7 @@
                 // Para poder probar la app en local utilizamos la url absoluta
                 const url = 'https://neorepo.github.io/localidades-argentinas/' + provincia + '.json';
                 // const url = provincia + '.json';
-                fetchResource(method, url);
+                fetchResource(url);
             } else {
                 removeOptions(selectLocalidad);
                 // Removemos los datos de muestra, si los hay
@@ -199,33 +202,25 @@
             }
         }
 
-        function fetchResource(method, url) {
+        function fetchResource(url) {
+            const client = new XMLHttpRequest();
+            const method = 'GET';
             client.onload = handler;
             client.open(method, url + ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime());
             client.send();
         }
 
-        // https://www.w3.org/TR/WCAG20-TECHS/SCR19.html
         function processData(response) {
             if (selectLocalidad) {
-                data = JSON.parse(response);
+                // Si existe el select, removemos opciones, si las hay
                 removeOptions(selectLocalidad);
+                // Parseamos la respuesta del servidor
+                data = JSON.parse(response);
                 // Removemos los datos de muestra, cada vez que se cambie de provincia
                 output.classList.remove("output");
                 output.innerHTML = '';
-
-                let opt;
-                data.forEach(obj => {
-                    opt = document.createElement('option');
-                    opt.value = obj.id;
-                    opt.text = obj.nombre + " (" + obj.cp + ")";
-                    try {
-                        fragment.add(opt);
-                    } catch (e) {
-                        fragment.appendChild(opt);
-                    }
-                });
-                selectLocalidad.appendChild(fragment);
+                // Creamos opciones con los datos provistos
+                createOptions(data, selectLocalidad);
             }
         }
 
@@ -233,6 +228,21 @@
         function removeOptions(objSelect) {
             let len = objSelect.options.length;
             while (len-- > 1) objSelect.remove(1);
+        }
+
+        function createOptions(data, selectObj) {
+            let newOpt;
+            data.forEach(obj => {
+                newOpt = document.createElement('option');
+                newOpt.value = obj.id;
+                newOpt.text = obj.nombre + " (" + obj.cp + ")";
+                try {
+                    fragment.add(newOpt);
+                } catch (e) {
+                    fragment.appendChild(newOpt);
+                }
+            });
+            selectObj.appendChild(fragment);
         }
 
         function handler() {
