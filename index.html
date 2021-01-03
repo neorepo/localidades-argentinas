@@ -156,11 +156,11 @@
         const fragment = document.createDocumentFragment();
 
         document.addEventListener('DOMContentLoaded', (e) => {
-            initOnchangeProvincia();
-            initOnchangeLocalidad();
+            initChangeProvincia();
+            initChangeLocalidad();
         });
 
-        function initOnchangeLocalidad(params) {
+        function initChangeLocalidad(params) {
             if (selectLocalidad) {
                 selectLocalidad.onchange = function (e) { mostrarInfo(this, e); }
             }
@@ -168,19 +168,28 @@
 
         function mostrarInfo(objSelect, e) {
             let idx = objSelect.selectedIndex;
+            let message = '';
+            let flag = false;
             if (idx != 0) {
-                const opt = data[idx - 1];
-                if (output) {
+                const obj = data[idx - 1];
+                message += `<h3>${obj.nombre}, ${selectProvincia.value}</h3><h4>Código postal: ${obj.cp}</h4>`;
+                flag = true;
+            }
+            salida(message, flag);
+        }
+
+        function salida(message, flag) {
+            if (output) {
+                output.innerHTML = message;
+                if (flag) {
                     output.classList.add("output");
-                    output.innerHTML = `<h3>${opt.nombre}, ${selectProvincia.value}</h3><h4>Código postal: ${opt.cp}</h4>`;
+                } else {
+                    output.classList.remove("output");
                 }
-            } else {
-                output.classList.remove("output");
-                output.innerHTML = '';
             }
         }
 
-        function initOnchangeProvincia() {
+        function initChangeProvincia() {
             if (selectProvincia) {
                 selectProvincia.onchange = function (e) { return handleChangeProvincia(this, e); }
             }
@@ -197,8 +206,7 @@
             } else {
                 removeOptions(selectLocalidad);
                 // Removemos los datos de muestra, si los hay
-                output.classList.remove("output");
-                output.innerHTML = '';
+                salida('', false);
             }
         }
 
@@ -214,11 +222,10 @@
             if (selectLocalidad) {
                 // Si existe el select, removemos opciones, si las hay
                 removeOptions(selectLocalidad);
+                // Removemos los datos de muestra, cada vez que se cambie de provincia
+                salida('', false);
                 // Parseamos la respuesta del servidor
                 data = JSON.parse(response);
-                // Removemos los datos de muestra, cada vez que se cambie de provincia
-                output.classList.remove("output");
-                output.innerHTML = '';
                 // Creamos opciones con los datos provistos
                 createOptions(data, selectLocalidad);
             }
