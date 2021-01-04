@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Select Statements</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-size: 1rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+        }
+
+        label {
+            display: inline-block;
+            margin-bottom: .25rem;
+            font-weight: 600;
+        }
+
+        span {
+            background-color: crimson;
+            color: white;
+            padding: .3rem .6rem;
+            border-radius: .25rem;
+            font-weight: 700;
+        }
+
+        select {
+            display: block;
+            width: 100%;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            border-radius: .25rem;
+            height: calc(1.5em + .75rem + 2px);
+            line-height: 1.5;
+            border: 1px solid #ced4da;
+        }
+
+        .mb-3 {
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <noscript>This page requires JavaScript be available and enabled to function properly</noscript>
+
+    <h1>Dynamic Select Statements</h1>
+
+    <div class="mb-3">
+
+        <!-- Select continent -->
+        <label for="continent">Select Continent:</label>
+        <select id="continent">
+            <option value="">Select a Continent</option>
+            <option value="North America">North America</option>
+            <option value="South America">South America</option>
+            <option value="Asia">Asia</option>
+            <option value="Europe">Europe</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+
+        <!-- Select country -->
+        <label for="country">Select a country:</label>
+        <select id="country">
+            <option value="">Select a country</option>
+        </select>
+    </div>
+
+    <!-- Output -->
+    <div id="output"></div>
+
+    <script>
+
+        // array of possible countries in the same order as they appear in the country selection list 
+        var countryLists = new Array(4)
+        countryLists["North America"] = ["Canada", "United States", "Mexico"];
+        countryLists["South America"] = ["Brazil", "Argentina", "Chile", "Peru", "Ecuador"];
+        countryLists["Asia"] = ["Russia", "China", "Japan"];
+        countryLists["Europe"] = ["Britain", "France", "Spain", "Germany"];
+
+        const selectContinent = document.querySelector('select#continent');
+        const selectCountry = document.querySelector('select#country');
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            initChangeContinent();
+            initChangeCountry();
+
+        });
+
+        // Inicialización cambio de continente
+        const initChangeContinent = () => {
+            if (selectContinent) {
+                selectContinent.onchange = function (e) { return handleChangeContinent(this, e); }
+            }
+        }
+
+        // Manejador del evento change continente
+        const handleChangeContinent = (selectObj, objEvent) => {
+            if (selectCountry) {
+                // Solo se habilitará cuando el índice seleccionado sea distinto de cero
+                selectCountry.disabled = true;
+                // Removemos opciones si las hay
+                removeOptions(selectCountry);
+                output('');
+                const selectedIndex = selectObj.selectedIndex;
+                if (selectedIndex > 0) {
+                    // Habilitamos el select de paises
+                    selectCountry.disabled = false;
+                    const which = selectObj.options[selectedIndex].value;
+                    cList = countryLists[which];
+                    // Creamos opciones
+                    createOptions(cList, selectCountry);
+                }
+            }
+        }
+
+        // Inicialización cambio de país
+        const initChangeCountry = () => {
+            if (selectCountry) {
+                selectCountry.disabled = true;
+                selectCountry.onchange = function (e) { return handleChangeCountry(this, e); }
+            }
+        }
+
+        // Manejador del evento change país
+        const handleChangeCountry = (selectObj, objEvent) => {
+            const selectedIndex = selectObj.selectedIndex;
+            let message = '';
+            if (selectedIndex > 0) {
+                const country = selectObj.options[selectedIndex].value;
+                message += `Usted seleccionó <span>${country}</span>`;
+            }
+            output(message);
+        }
+
+        // Datos de salida
+        const output = (message) => {
+            const output = document.querySelector('#output');
+            if (output) output.innerHTML = message;
+        }
+
+        // Crea opciones en objetos select
+        const createOptions = (data, selectObj) => {
+            let newOpt;
+            const fragment = document.createDocumentFragment();
+            data.forEach(element => {
+                newOpt = document.createElement('option');
+                newOpt.value = element;
+                newOpt.text = element;
+                try {
+                    fragment.add(newOpt);
+                } catch (error) {
+                    fragment.appendChild(newOpt);
+                }
+            });
+            selectObj.appendChild(fragment);
+        }
+
+        // Remueve todas las opciones excepto el índice 0 (osea no remueve la primera opción)
+        const removeOptions = (selectObj) => {
+            let len = selectObj.options.length;
+            while (len-- > 1) selectObj.remove(1);
+        }
+    </script>
+</body>
+
+</html>
