@@ -179,7 +179,7 @@
                 output('');
                 const selectedIndex = selectObj.selectedIndex;
                 if (selectedIndex > 0) {
-                    // Habilitamos el select de paises
+                    // Habilitamos el select de localidades
                     selectLocalidad.disabled = false;
                     provincia = selectObj.options[selectedIndex].value;
                     const url = 'https://neorepo.github.io/localidades-argentinas/' + provincia.replaceAll(" ", "-").toLowerCase() + '.json';
