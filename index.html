@@ -28,7 +28,7 @@
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 
     <!-- Favicon -->
-    <link rel="icon" href="location.png" sizes="16x16 32x32" type="image/png">
+    <!-- <link rel="icon" href="location.png" sizes="16x16 32x32" type="image/png"> -->
 
     <!-- Estilos  -->
     <style>
@@ -64,7 +64,7 @@
         </div>
     </nav>
 
-    <main class="container my-5 p-3">
+    <main class="container mt-5">
 
         <div class="mb-4">
             <h1 class="h3">Códigos Postales de Localidades Argentinas</h1>
@@ -79,7 +79,6 @@
                 <option value="CATAMARCA">CATAMARCA</option>
                 <option value="CHACO">CHACO</option>
                 <option value="CHUBUT">CHUBUT</option>
-                <!-- <option value="CIUDAD AUTONOMA DE BUENOS AIRES">CIUDAD AUTONOMA DE BUENOS AIRES</option> -->
                 <option value="CORDOBA">CORDOBA</option>
                 <option value="CORRIENTES">CORRIENTES</option>
                 <option value="ENTRE RIOS">ENTRE RIOS</option>
@@ -110,6 +109,7 @@
             </select>
         </div>
 
+        <!-- Datos de salida -->
         <div class="text-center mt-5" id="output"></div>
 
     </main>
@@ -125,6 +125,7 @@
     </footer>
 
     <script>
+
         $(document).ready(function () {
             $('#provincia').select2({
                 theme: "bootstrap4",
@@ -149,123 +150,123 @@
 
         const selectProvincia = document.querySelector('select#provincia');
         const selectLocalidad = document.querySelector('select#localidad');
-        const output = document.querySelector("#output");
 
-        let data = [];
+        // Variables globales
+        var provincia, data;
 
-        const fragment = document.createDocumentFragment();
+        document.addEventListener('DOMContentLoaded', () => {
 
-        document.addEventListener('DOMContentLoaded', (e) => {
             initChangeProvincia();
             initChangeLocalidad();
+
         });
 
-        function initChangeLocalidad(params) {
-            if (selectLocalidad) {
-                selectLocalidad.onchange = function (e) { handleChangeLocalidad(this, e); }
-            }
-        }
-
-        function handleChangeLocalidad(objSelect, e) {
-            let idx = objSelect.selectedIndex;
-            let message = '';
-            let flag = false;
-            if (idx != 0) {
-                const obj = data[idx - 1];
-                message += `<h3>${obj.nombre}, ${selectProvincia.value}</h3><h4>Código postal: ${obj.cp}</h4>`;
-                flag = true;
-            }
-            mostrarInfo(message, flag);
-        }
-
-        function mostrarInfo(message, flag) {
-            if (output) {
-                output.innerHTML = message;
-                if (flag) {
-                    output.classList.add("output");
-                } else {
-                    output.classList.remove("output");
-                }
-            }
-        }
-
+        // Inicializar el cambio de Provincia
         function initChangeProvincia() {
             if (selectProvincia) {
                 selectProvincia.onchange = function (e) { return handleChangeProvincia(this, e); }
             }
         }
 
-        function handleChangeProvincia(objSelect, e) {
-            if (objSelect.selectedIndex != 0) {
-                let provincia = objSelect.value;
-                provincia = provincia.replaceAll(" ", "-").toLowerCase();
-                // Para poder probar la app en local utilizamos la url absoluta
-                const url = 'https://neorepo.github.io/localidades-argentinas/' + provincia + '.json';
-                // const url = provincia + '.json';
-                fetchResource(url);
-            } else {
-                removeOptions(selectLocalidad);
-                // Removemos los datos de muestra, si los hay
-                mostrarInfo('', false);
-            }
-        }
-
-        function fetchResource(url) {
-            const client = new XMLHttpRequest();
-            const method = 'GET';
-            client.onload = handler;
-            client.open(method, url + ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime());
-            client.send();
-        }
-
-        function processData(response) {
+        // Manejar el cambio de Provincia
+        function handleChangeProvincia(selectObj, objEvent) {
             if (selectLocalidad) {
-                // Si existe el select, removemos opciones, si las hay
+                // Solo se habilitará cuando el índice seleccionado sea distinto de cero
+                selectLocalidad.disabled = true;
+                // Removemos opciones si las hay
                 removeOptions(selectLocalidad);
-                // Removemos los datos de muestra, cada vez que se cambie de provincia
-                mostrarInfo('', false);
-                // Parseamos la respuesta del servidor
-                data = JSON.parse(response);
-                // Creamos opciones con los datos provistos
-                createOptions(data, selectLocalidad);
+                // Removemos datos de salida, si los hay
+                output('');
+                const selectedIndex = selectObj.selectedIndex;
+                if (selectedIndex > 0) {
+                    // Habilitamos el select de paises
+                    selectLocalidad.disabled = false;
+                    provincia = selectObj.options[selectedIndex].value;
+                    const url = 'https://neorepo.github.io/localidades-argentinas/' + provincia.replaceAll(" ", "-").toLowerCase() + '.json';
+                    // Solicitar datos al servidor
+                    sendHttpRequest('GET', url, null, loadLocalities);
+                }
             }
         }
 
-        // remove the current options from the element select
-        function removeOptions(objSelect) {
-            let len = objSelect.options.length;
-            while (len-- > 1) objSelect.remove(1);
+        // Cargar las localidades
+        function loadLocalities(response) {
+            // Parseamos la respuesta del servidor
+            data = JSON.parse(response);
+            createOptions(data, selectLocalidad);
         }
 
+        // Inicializar el cambio de Localidad
+        function initChangeLocalidad() {
+            if (selectLocalidad) {
+                // En la carga del DOM desabilitamos el select de localidad
+                selectLocalidad.disabled = true;
+                selectLocalidad.onchange = function (e) { return handleChangeLocalidad(this, e); }
+            }
+        }
+
+        // Manejar el cambio de Localidad
+        function handleChangeLocalidad(selectObj, objEvent) {
+            const selectedIndex = selectObj.selectedIndex;
+            let message = '';
+            if (selectedIndex > 0) {
+                const obj = data[selectedIndex - 1];
+                message += `<div class="output"><h3>${obj.nombre}, ${provincia}</h3><h4>Código postal: ${obj.cp}</h4></div>`;
+            }
+            // Mostrar datos
+            output(message);
+        }
+
+        // Crea opciones en objetos select
         function createOptions(data, selectObj) {
             let newOpt;
+            const fragment = document.createDocumentFragment();
             data.forEach(obj => {
                 newOpt = document.createElement('option');
                 newOpt.value = obj.id;
                 newOpt.text = obj.nombre + " (" + obj.cp + ")";
                 try {
                     fragment.add(newOpt);
-                } catch (e) {
+                } catch (error) {
                     fragment.appendChild(newOpt);
                 }
             });
             selectObj.appendChild(fragment);
         }
 
-        function handler() {
-            if (this.status == 200 && this.responseText != null) {
-                // success!
-                processData(this.responseText);
-            } else {
-                // something went wrong
-                console.log('Something went wrong!');
-                /*if (output) {
-                    output.innerHTML = `<div class="alert alert-primary alert-dismissible fade show" role="alert">
-                        No fue posible realizar la busqueda en este momento. Por favor, inténtalo nuevamente.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>`;
-                }*/
+        // Remueve todas las opciones excepto el índice 0 (osea no remueve la primera opción)
+        function removeOptions(selectObj) {
+            let len = selectObj.options.length;
+            while (len-- > 1) selectObj.remove(1);
+        }
+
+        // Datos de salida
+        function output(message) {
+            const output = document.querySelector('#output');
+            if (output) output.innerHTML = message;
+        }
+
+        // Enviar solicitud al servidor
+        function sendHttpRequest(method, url, data, callback) {
+            const xhr = getXhr();
+            xhr.onreadystatechange = processRequest;
+            function getXhr() {
+                if (window.XMLHttpRequest) {
+                    return new XMLHttpRequest();
+                } else {
+                    return new ActiveXObject("Microsoft.XMLHTTP");
+                }
             }
+            function processRequest() {
+                if (xhr.readyState == XMLHttpRequest.DONE) {
+                    if (xhr.status == 200) {
+                        if (callback) callback(xhr.responseText);
+                    }
+                }
+            }
+            xhr.open(method, url + ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime());
+            if (data && !(data instanceof FormData)) xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.send(data);
         }
 
     </script>
