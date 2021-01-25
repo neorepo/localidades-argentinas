@@ -42,8 +42,7 @@ function handleChangeProvincia(selectObj, objEvent) {
 // Cargar las localidades
 function loadLocalities(response) {
     // Parseamos la respuesta del servidor
-    data = JSON.parse(response);
-    console.log(data);
+    data = JSON.parse(response).localidades;
     createOptions(data, selectLocalidad);
 }
 
