@@ -6,4 +6,4 @@ Este repositorio cuenta con archivos json por provincia Argentina, los cuales br
 
 A partir de esta información contenida en el repositorio, se generó una pequeña aplicación de [busqueda de códigos postales](https://neorepo.github.io/localidades-argentinas/) que aprovecha la funcionalidad de alojamiento GitHub Pages.
 
-Última actualización: 24/09/2020 09:30
+Última actualización: 25/01/2021 18:22
