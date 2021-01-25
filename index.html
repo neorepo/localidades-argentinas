@@ -28,27 +28,10 @@
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 
     <!-- Favicon -->
-    <link rel="icon" href="location.png" sizes="16x16 32x32" type="image/png">
+    <link rel="icon" href="img/location.png" sizes="16x16 32x32" type="image/png">
 
     <!-- Estilos  -->
-    <style>
-        label {
-            font-weight: 600;
-            margin-bottom: .25rem;
-        }
-
-        .output {
-            border: 3px solid #37BBED;
-            padding: 32px;
-            border-radius: 5px;
-            background-color: #f3faff;
-        }
-
-        .form-control:focus,
-        .custom-select:focus {
-            border-color: #0366d6;
-        }
-    </style>
+    <link rel="stylesheet" href="css/styles.css">
     <title>Buscador de Códigos Postales - Localidades Argentinas</title>
 </head>
 
@@ -57,7 +40,7 @@
     <nav class="navbar navbar-expand-md navbar-dark" style="background-color: #37BBED;">
         <div class="container-fluid">
             <a class="navbar-brand" href="#" style="font-weight: 500;">
-                <img src="location.png" width="30" height="30" class="d-inline-block align-top"
+                <img src="img/location.png" width="30" height="30" class="d-inline-block align-top"
                     alt="Imagen de icono de ubicación" loading="lazy">
                 Buscador de Códigos Postales
             </a>
@@ -75,29 +58,30 @@
             <label for="provincia">Provincia:</label>
             <select name="provincia" id="provincia" class="custom-select">
                 <option value="">- Seleccione una provincia -</option>
-                <option value="BUENOS AIRES">BUENOS AIRES</option>
-                <option value="CATAMARCA">CATAMARCA</option>
-                <option value="CHACO">CHACO</option>
-                <option value="CHUBUT">CHUBUT</option>
-                <option value="CORDOBA">CORDOBA</option>
-                <option value="CORRIENTES">CORRIENTES</option>
-                <option value="ENTRE RIOS">ENTRE RIOS</option>
-                <option value="FORMOSA">FORMOSA</option>
-                <option value="JUJUY">JUJUY</option>
-                <option value="LA PAMPA">LA PAMPA</option>
-                <option value="LA RIOJA">LA RIOJA</option>
-                <option value="MENDOZA">MENDOZA</option>
-                <option value="MISIONES">MISIONES</option>
-                <option value="NEUQUEN">NEUQUEN</option>
-                <option value="RIO NEGRO">RIO NEGRO</option>
-                <option value="SALTA">SALTA</option>
-                <option value="SAN JUAN">SAN JUAN</option>
-                <option value="SAN LUIS">SAN LUIS</option>
-                <option value="SANTA CRUZ">SANTA CRUZ</option>
-                <option value="SANTA FE">SANTA FE</option>
-                <option value="SANTIAGO DEL ESTERO">SANTIAGO DEL ESTERO</option>
-                <option value="TIERRA DEL FUEGO">TIERRA DEL FUEGO</option>
-                <option value="TUCUMAN">TUCUMAN</option>
+                <option value="Buenos Aires">BUENOS AIRES</option>
+                <option value="Catamarca">CATAMARCA</option>
+                <option value="Chaco">CHACO</option>
+                <option value="Chubut">CHUBUT</option>
+                <option value="Ciudad Autónoma de Buenos Aires">CIUDAD AUTÓNOMA DE BUENOS AIRES</option>
+                <option value="Córdoba">CÓRDOBA</option>
+                <option value="Corrientes">CORRIENTES</option>
+                <option value="Entre Ríos">ENTRE RÍOS</option>
+                <option value="Formosa">FORMOSA</option>
+                <option value="Jujuy">JUJUY</option>
+                <option value="La Pampa">LA PAMPA</option>
+                <option value="La Rioja">LA RIOJA</option>
+                <option value="Mendoza">MENDOZA</option>
+                <option value="Misiones">MISIONES</option>
+                <option value="Neuquén">NEUQUÉN</option>
+                <option value="Río Negro">RÍO NEGRO</option>
+                <option value="Salta">SALTA</option>
+                <option value="San Juan">SAN JUAN</option>
+                <option value="San Luis">SAN LUIS</option>
+                <option value="Santa Cruz">SANTA CRUZ</option>
+                <option value="Santa Fe">SANTA FE</option>
+                <option value="Santiago del Estero">SANTIAGO DEL ESTERO</option>
+                <option value="Tierra del Fuego, Antártida e Islas del Atlántico Sur">TIERRA DEL FUEGO</option>
+                <option value="Tucumán">TUCUMÁN</option>
             </select>
         </div>
 
@@ -124,152 +108,8 @@
         </p>
     </footer>
 
-    <script>
-
-        $(document).ready(function () {
-            $('#provincia').select2({
-                theme: "bootstrap4",
-                language: {
-                    noResults: function () { return "No se encontraron resultados" }
-                }
-            });
-
-            $('#localidad').select2({
-                // placeholder: '- Seleccione una opción -',
-                // allowClear: true,
-                theme: "bootstrap4",
-                minimumInputLength: 3,
-                language: {
-                    inputTooShort: function (e) {
-                        var n = e.minimum - e.input.length, r = "Por favor, introduzca " + n + " car"; return r += 1 == n ? "ácter" : "acteres";
-                    },
-                    noResults: function () { return "No se encontraron resultados"; }
-                }
-            });
-        });
-
-        const selectProvincia = document.querySelector('select#provincia');
-        const selectLocalidad = document.querySelector('select#localidad');
-
-        // Variables globales
-        var provincia, data;
-
-        document.addEventListener('DOMContentLoaded', () => {
-
-            initChangeProvincia();
-            initChangeLocalidad();
-
-        });
-
-        // Inicializar el cambio de Provincia
-        function initChangeProvincia() {
-            if (selectProvincia) {
-                selectProvincia.onchange = function (e) { return handleChangeProvincia(this, e); }
-            }
-        }
-
-        // Manejar el cambio de Provincia
-        function handleChangeProvincia(selectObj, objEvent) {
-            if (selectLocalidad) {
-                // Solo se habilitará cuando el índice seleccionado sea distinto de cero
-                selectLocalidad.disabled = true;
-                // Removemos opciones si las hay
-                removeOptions(selectLocalidad);
-                // Removemos datos de salida, si los hay
-                output('');
-                const selectedIndex = selectObj.selectedIndex;
-                if (selectedIndex > 0) {
-                    // Habilitamos el select de localidades
-                    selectLocalidad.disabled = false;
-                    provincia = selectObj.options[selectedIndex].value;
-                    const url = 'https://neorepo.github.io/localidades-argentinas/' + provincia.replaceAll(" ", "-").toLowerCase() + '.json';
-                    // Solicitar datos al servidor
-                    sendHttpRequest('GET', url, null, loadLocalities);
-                }
-            }
-        }
-
-        // Cargar las localidades
-        function loadLocalities(response) {
-            // Parseamos la respuesta del servidor
-            data = JSON.parse(response);
-            createOptions(data, selectLocalidad);
-        }
-
-        // Inicializar el cambio de Localidad
-        function initChangeLocalidad() {
-            if (selectLocalidad) {
-                // En la carga del DOM desabilitamos el select de localidad
-                selectLocalidad.disabled = true;
-                selectLocalidad.onchange = function (e) { return handleChangeLocalidad(this, e); }
-            }
-        }
-
-        // Manejar el cambio de Localidad
-        function handleChangeLocalidad(selectObj, objEvent) {
-            const selectedIndex = selectObj.selectedIndex;
-            let message = '';
-            if (selectedIndex > 0) {
-                const obj = data[selectedIndex - 1];
-                message += `<div class="output"><h3>${obj.nombre}, ${provincia}</h3><h4>Código postal: ${obj.cp}</h4></div>`;
-            }
-            // Mostrar datos
-            output(message);
-        }
-
-        // Crea opciones en objetos select
-        function createOptions(data, selectObj) {
-            let newOpt;
-            const fragment = document.createDocumentFragment();
-            data.forEach(obj => {
-                newOpt = document.createElement('option');
-                newOpt.value = obj.id;
-                newOpt.text = obj.nombre + " (" + obj.cp + ")";
-                try {
-                    fragment.add(newOpt);
-                } catch (error) {
-                    fragment.appendChild(newOpt);
-                }
-            });
-            selectObj.appendChild(fragment);
-        }
-
-        // Remueve todas las opciones excepto el índice 0 (osea no remueve la primera opción)
-        function removeOptions(selectObj) {
-            let len = selectObj.options.length;
-            while (len-- > 1) selectObj.remove(1);
-        }
-
-        // Datos de salida
-        function output(message) {
-            const output = document.querySelector('#output');
-            if (output) output.innerHTML = message;
-        }
-
-        // Enviar solicitud al servidor
-        function sendHttpRequest(method, url, data, callback) {
-            const xhr = getXhr();
-            xhr.onreadystatechange = processRequest;
-            function getXhr() {
-                if (window.XMLHttpRequest) {
-                    return new XMLHttpRequest();
-                } else {
-                    return new ActiveXObject("Microsoft.XMLHTTP");
-                }
-            }
-            function processRequest() {
-                if (xhr.readyState == XMLHttpRequest.DONE) {
-                    if (xhr.status == 200) {
-                        if (callback) callback(xhr.responseText);
-                    }
-                }
-            }
-            xhr.open(method, url + ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime());
-            if (data && !(data instanceof FormData)) xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.send(data);
-        }
-
-    </script>
+    <script src="js/select2.js"></script>
+    <script src="js/main.js"></script>
 </body>
 
 </html>

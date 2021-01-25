@@ -1,0 +1,16 @@
+label {
+    font-weight: 600;
+    margin-bottom: .25rem;
+}
+
+.output {
+    border: 3px solid #37BBED;
+    padding: 32px;
+    border-radius: 5px;
+    background-color: #f3faff;
+}
+
+.form-control:focus,
+.custom-select:focus {
+    border-color: #0366d6;
+}
