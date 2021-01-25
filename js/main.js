@@ -61,7 +61,7 @@ function handleChangeLocalidad(selectObj, objEvent) {
     let message = '';
     if (selectedIndex > 0) {
         const obj = data[selectedIndex - 1];
-        message += `<div class="output"><h3>${obj.nombre}, ${provincia}</h3><h4>Código postal: ${obj.cp}</h4></div>`;
+        message += `<div class="output"><h3>${obj.nombre}, ${provincia.toUpperCase()}</h3><h4>Código postal: ${obj.cp}</h4></div>`;
     }
     // Mostrar datos
     output(message);
