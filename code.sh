@@ -32,8 +32,8 @@ mkdir by-province
 
 echo -e '## Processing all provinces...'
 for i in A B C D E F G H J K L M N P Q R S T U V W X Y Z; do
-  text="{\"iso_31662\":\"AR-${i}\", \"provincia\":\"${PROVINCES[${i}]}\", \"localidades\":"
-  text="${text} `curl -s 'https://www.correoargentino.com.ar/sites/all/modules/custom/ca_forms/api/wsFacade.php' \
+  text="{\"iso_31662\":\"AR-${i}\",\"provincia\":\"${PROVINCES[${i}]}\",\"localidades\":"
+  text="${text}`curl -s 'https://www.correoargentino.com.ar/sites/all/modules/custom/ca_forms/api/wsFacade.php' \
   --data-raw "action=localidades&localidad=none&calle=&altura=&provincia=${i}"`}"
 
   echo '## Saving current province localities...'
@@ -41,6 +41,7 @@ for i in A B C D E F G H J K L M N P Q R S T U V W X Y Z; do
   # http://alvinalexander.com/blog/post/linux-unix/how-remove-non-printable-ascii-characters-file-unix
   text=$(echo ${text} | tr -cd '\11\12\15\40-\176')
   CURRENT_FILE=$(echo -e "by-province/${PROVINCES[${i}]}.json" | tr -d '[:space:]')
+  # --compact-output: json minified
   echo ${text} | jq --compact-output '.' | cat > ${CURRENT_FILE}
   echo '## [DONE]'
 done
