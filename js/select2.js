@@ -1,5 +1,6 @@
 $(document).ready(function () {
     $('#provincia').select2({
+        width: 'resolve',
         theme: "bootstrap4",
         language: {
             noResults: function () { return "No se encontraron resultados" }
@@ -9,6 +10,7 @@ $(document).ready(function () {
     $('#localidad').select2({
         // placeholder: '- Seleccione una opción -',
         // allowClear: true,
+        width: 'resolve',
         theme: "bootstrap4",
         minimumInputLength: 3,
         language: {
