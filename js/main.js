@@ -3,6 +3,13 @@ const selectLocalidad = document.querySelector('select#localidad');
 
 // Variables globales
 var provincia, data;
+const provincias = [
+    "Buenos Aires", "Catamarca", "Chaco", "Chubut", "Ciudad Autónoma de Buenos Aires",
+    "Córdoba", "Corrientes", "Entre Ríos", "Formosa", "Jujuy",
+    "La Pampa", "La Rioja", "Mendoza", "Misiones", "Neuquén",
+    "Río Negro", "Salta", "San Juan", "San Luis", "Santa Cruz", "Santa Fe",
+    "Santiago del Estero", "Tierra del Fuego, Antártida e Islas del Atlántico Sur", "Tucumán"
+];
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -27,14 +34,20 @@ function handleChangeProvincia(selectObj, objEvent) {
         removeOptions(selectLocalidad);
         // Removemos datos de salida, si los hay
         output('');
+        // Obtenemos el índice seleccionado
         const selectedIndex = selectObj.selectedIndex;
         if (selectedIndex > 0) {
-            // Habilitamos el select de localidades
-            selectLocalidad.disabled = false;
+            // Obtenemos el valor de la opción seleccionada
             provincia = selectObj.options[selectedIndex].value;
-            const url = 'https://neorepo.github.io/localidades-argentinas/by-province/' + provincia.replaceAll(" ", "") + '.json';
-            // Solicitar datos al servidor
-            sendHttpRequest('GET', url, null, loadLocalities);
+            // Válidamos que sea una provincia válida antes de continuar
+            if (provincias.includes(provincia)) {
+                console.log("La provincia " + provincia + " esta incluida.");
+                const url = 'https://neorepo.github.io/localidades-argentinas/by-province/' + provincia.replaceAll(" ", "") + '.json';
+                // Solicitar datos al servidor
+                sendHttpRequest('GET', url, null, loadLocalities);
+                // Habilitamos el select de localidades
+                selectLocalidad.disabled = false;
+            }
         }
     }
 }
@@ -117,4 +130,11 @@ function sendHttpRequest(method, url, data, callback) {
     xhr.open(method, url + ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime());
     if (data && !(data instanceof FormData)) xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(data);
+}
+
+// Validamos el caracter que forma parte del código 3166-2
+function validCharacter(c) {
+    // Solo letras mayúsculas son permitidas
+    const re = /^[ABCDEFGHJKLMNPQRSTUVWXYZ]{1}$/; // No incluidas => I,Ñ,O
+    return re.test(c);
 }
