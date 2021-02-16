@@ -43,6 +43,8 @@ function handleChangeProvincia(selectObj, objEvent) {
             if (provincias.includes(provincia)) {
                 console.log("La provincia " + provincia + " esta incluida.");
                 const url = 'https://neorepo.github.io/localidades-argentinas/by-province/' + provincia.replaceAll(" ", "") + '.json';
+                // Init Loader
+                openLoader();
                 // Solicitar datos al servidor
                 sendHttpRequest('GET', url, null, loadLocalities);
                 // Habilitamos el select de localidades
@@ -57,6 +59,8 @@ function loadLocalities(response) {
     // Parseamos la respuesta del servidor
     data = JSON.parse(response).localidades;
     createOptions(data, selectLocalidad);
+    // Despues de crear las opciones, ocultamos el loader
+    closeLoader();
 }
 
 // Inicializar el cambio de Localidad
@@ -137,4 +141,14 @@ function validCharacter(c) {
     // Solo letras mayúsculas son permitidas
     const re = /^[ABCDEFGHJKLMNPQRSTUVWXYZ]{1}$/; // No incluidas => I,Ñ,O
     return re.test(c);
+}
+
+const backdrop = document.querySelector('.backdrop');
+
+function closeLoader() {
+    if (backdrop) backdrop.style.display = "none";
+}
+
+function openLoader() {
+    if (backdrop) backdrop.style.display = "block";
 }
