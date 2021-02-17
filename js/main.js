@@ -37,12 +37,12 @@ function handleChangeProvincia(selectObj, objEvent) {
         output('');
         // Obtenemos el índice seleccionado
         const selectedIndex = selectObj.selectedIndex;
+        // Verificamos que el índice sea mayor a cero
         if (selectedIndex > 0) {
             // Obtenemos el valor de la opción seleccionada
             provincia = selectObj.options[selectedIndex].value;
             // Válidamos que sea una provincia válida antes de continuar
             if (provincias.includes(provincia)) {
-                console.log("La provincia " + provincia + " esta incluida.");
                 const url = 'https://neorepo.github.io/localidades-argentinas/by-province/' + provincia.replaceAll(" ", "") + '.json';
                 // Init Loader
                 openLoader();
