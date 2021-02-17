@@ -1,8 +1,11 @@
+'use strict';
+
 const selectProvincia = document.querySelector('select#provincia');
 const selectLocalidad = document.querySelector('select#localidad');
 
 // Variables globales
 var provincia, data;
+
 const provincias = [
     "Buenos Aires", "Catamarca", "Chaco", "Chubut", "Ciudad Autónoma de Buenos Aires",
     "Córdoba", "Corrientes", "Entre Ríos", "Formosa", "Jujuy",
@@ -12,10 +15,8 @@ const provincias = [
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
-
     initChangeProvincia();
     initChangeLocalidad();
-
 });
 
 // Inicializar el cambio de Provincia
@@ -129,13 +130,17 @@ function sendHttpRequest(method, url, data, callback) {
             if (xhr.status == 200) {
                 if (callback) callback(xhr.responseText);
             } else {
-                console.log("There was a problem retrieving the data:\n" + xhr.statusText);
+                console.log("There was a problem retrieving the data: " + xhr.statusText);
             }
         }
+    }
+    function handleError(e) {
+        console.log("Error: " + e + " Could not load url.");
     }
     xhr.open(method, url + ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime());
     if (data && !(data instanceof FormData)) xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(data);
+    xhr.onerror = function (e) { return handleError(e); }
 }
 
 // Validamos el caracter que forma parte del código 3166-2
