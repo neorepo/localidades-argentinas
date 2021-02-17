@@ -128,7 +128,7 @@ function sendHttpRequest(method, url, data, callback) {
     function processRequest() {
         if (xhr.readyState == xhr.DONE) {
             if (xhr.status == 200) {
-                if (callback) callback(xhr.responseText);
+                if (callback) callback(xhr.response);
             } else {
                 console.log("There was a problem retrieving the data: " + xhr.statusText);
             }
