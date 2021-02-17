@@ -125,9 +125,11 @@ function sendHttpRequest(method, url, data, callback) {
         }
     }
     function processRequest() {
-        if (xhr.readyState == XMLHttpRequest.DONE) {
+        if (xhr.readyState == xhr.DONE) {
             if (xhr.status == 200) {
                 if (callback) callback(xhr.responseText);
+            } else {
+                console.log("There was a problem retrieving the data:\n" + xhr.statusText);
             }
         }
     }
