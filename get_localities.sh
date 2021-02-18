@@ -52,6 +52,6 @@ for i in A B C D E F G H J K L M N P Q R S T U V W X Y Z; do
   CURRENT_FILE=$(echo -e "by-province/${PROVINCES[${i}]}.json" | tr -d '[:space:]')
   echo ${text} | jq --compact-output '.' | cat > ${CURRENT_FILE}
   echo '### [DONE]'
- done
+done
 
 echo '### [COMPLETE]'

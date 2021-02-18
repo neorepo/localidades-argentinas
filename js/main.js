@@ -126,7 +126,7 @@ function sendHttpRequest(method, url, data, callback) {
         }
     }
     function processRequest() {
-        if (xhr.readyState == xhr.DONE) {
+        if (xhr.readyState == XMLHttpRequest.DONE) {
             if (xhr.status == 200) {
                 if (callback) callback(xhr.response);
             } else {
