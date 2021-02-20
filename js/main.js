@@ -44,12 +44,12 @@ function handleChangeProvincia(selectObj, objEvent) {
             // Válidamos que sea una provincia válida antes de continuar
             if (provincias.includes(provincia)) {
                 const url = 'https://neorepo.github.io/localidades-argentinas/by-province/' + provincia.replaceAll(" ", "") + '.json';
-                // Init Loader
-                openLoader();
                 // Solicitar datos al servidor
                 sendHttpRequest('GET', url, null, loadLocalities);
                 // Habilitamos el select de localidades
                 selectLocalidad.disabled = false;
+            } else {
+                alert('Lo sentimos, no podemos procesar su solicitud!');
             }
         }
     }
@@ -59,9 +59,8 @@ function handleChangeProvincia(selectObj, objEvent) {
 function loadLocalities(response) {
     // Parseamos la respuesta del servidor
     data = JSON.parse(response).localidades;
+    // Creamos opciones
     createOptions(data, selectLocalidad);
-    // Despues de crear las opciones, ocultamos el loader
-    closeLoader();
 }
 
 // Inicializar el cambio de Localidad
@@ -117,6 +116,7 @@ function output(message) {
 // Enviar solicitud al servidor
 function sendHttpRequest(method, url, data, callback) {
     const xhr = getXhr();
+    openLoader();
     xhr.onreadystatechange = processRequest;
     function getXhr() {
         if (window.XMLHttpRequest) {
@@ -127,7 +127,7 @@ function sendHttpRequest(method, url, data, callback) {
     }
     function processRequest() {
         if (xhr.readyState == XMLHttpRequest.DONE) {
-            if (xhr.status == 200) {
+            if (xhr.status == 200 && xhr.response != null) {
                 if (callback) callback(xhr.response);
             } else {
                 console.log("There was a problem retrieving the data: " + xhr.statusText);
@@ -138,6 +138,11 @@ function sendHttpRequest(method, url, data, callback) {
         console.log("Error: " + e + " Could not load url.");
     }
     xhr.open(method, url + ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime());
+    xhr.onprogress = function (e) { }
+    xhr.onloadend = function (e) {
+        // console.log(e.loaded);
+        closeLoader();
+    }
     if (data && !(data instanceof FormData)) xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(data);
     xhr.onerror = function (e) { return handleError(e); }
