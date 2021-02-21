@@ -2,6 +2,7 @@
 
 const selectProvincia = document.querySelector('select#provincia');
 const selectLocalidad = document.querySelector('select#localidad');
+const backdrop = document.querySelector('.backdrop');
 
 // Variables globales
 var provincia, data;
@@ -116,7 +117,6 @@ function output(message) {
 // Enviar solicitud al servidor
 function sendHttpRequest(method, url, data, callback) {
     const xhr = getXhr();
-    openLoader();
     xhr.onreadystatechange = processRequest;
     function getXhr() {
         if (window.XMLHttpRequest) {
@@ -134,18 +134,19 @@ function sendHttpRequest(method, url, data, callback) {
             }
         }
     }
-    function handleError(e) {
-        console.log("Error: " + e + " Could not load url.");
-    }
     xhr.open(method, url + ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime());
-    xhr.onprogress = function (e) { }
+    xhr.onloadstart = function (e) {
+        openLoader();
+    }
     xhr.onloadend = function (e) {
         // console.log(e.loaded);
         closeLoader();
     }
     if (data && !(data instanceof FormData)) xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(data);
-    xhr.onerror = function (e) { return handleError(e); }
+    xhr.onerror = function (e) {
+        console.log("Error: " + e + " Could not load url.");
+    }
 }
 
 // Validamos el caracter que forma parte del código 3166-2
@@ -154,8 +155,6 @@ function validCharacter(c) {
     const re = /^[ABCDEFGHJKLMNPQRSTUVWXYZ]{1}$/; // No incluidas => I,Ñ,O
     return re.test(c);
 }
-
-const backdrop = document.querySelector('.backdrop');
 
 function closeLoader() {
     if (backdrop) backdrop.style.display = "none";
