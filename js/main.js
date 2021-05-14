@@ -1,8 +1,10 @@
 'use strict';
 
-const selectProvincia = document.querySelector('select#provincia');
-const selectLocalidad = document.querySelector('select#localidad');
-const backdrop = document.querySelector('.backdrop');
+const d = document;
+
+const selectProvincia = d.querySelector('select#provincia');
+const selectLocalidad = d.querySelector('select#localidad');
+const backdrop = d.querySelector('.backdrop');
 
 // Variables globales
 var provincia, data;
@@ -15,9 +17,10 @@ const provincias = [
     "Santiago del Estero", "Tierra del Fuego, Antártida e Islas del Atlántico Sur", "Tucumán"
 ];
 
-document.addEventListener('DOMContentLoaded', () => {
+d.addEventListener('DOMContentLoaded', () => {
     initChangeProvincia();
     initChangeLocalidad();
+    initPreventKeyboard();
 });
 
 // Inicializar el cambio de Provincia
@@ -88,9 +91,9 @@ function handleChangeLocalidad(selectObj, objEvent) {
 // Crea opciones en objetos select
 function createOptions(data, selectObj) {
     let newOpt;
-    const fragment = document.createDocumentFragment();
+    const fragment = d.createDocumentFragment();
     data.forEach(obj => {
-        newOpt = document.createElement('option');
+        newOpt = d.createElement('option');
         newOpt.value = obj.id;
         newOpt.text = obj.nombre + " (" + obj.cp + ")";
         try {
@@ -110,7 +113,7 @@ function removeOptions(selectObj) {
 
 // Datos de salida
 function output(message) {
-    const output = document.querySelector('#output');
+    const output = d.querySelector('#output');
     if (output) output.innerHTML = message;
 }
 
@@ -162,4 +165,14 @@ function closeLoader() {
 
 function openLoader() {
     if (backdrop) backdrop.style.display = "block";
+}
+
+function initPreventKeyboard() {
+    window.oncontextmenu = (e) => { e.preventDefault(); }
+    window.onkeydown = (e) => {
+        if ((e.ctrlKey && e.shiftKey && e.keyCode == 73) ||
+            (e.ctrlKey && e.keyCode == 85)) {
+            e.preventDefault();
+        }
+    }
 }
