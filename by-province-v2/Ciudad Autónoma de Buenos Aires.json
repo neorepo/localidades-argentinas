@@ -1,1 +1,1 @@
-{"iso_31662":"AR-C","provincia":"Ciudad Autónoma de Buenos Aires","localidades":<br /><b>Notice</b>:  Undefined property: stdClass::$lista in <b>/var/www/html/webinst/sites/all/modules/custom/ca_forms_core/ws/caCPABase.php</b> on line <b>53</b><br />null}
+{"iso_31662":"AR-C","provincia":"Ciudad Autónoma de Buenos Aires","localidades":[{"id":"5001","nombre":"CIUDAD AUTONOMA BUENOS AIRES","partido":"","municipio":null,"cp":"","latitud":null,"longitud":null}]}
