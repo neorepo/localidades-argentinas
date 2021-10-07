@@ -51,7 +51,7 @@ function handleChangeProvincia(selectObj, objEvent) {
             if (provincias.includes(provincia)) {
                 // Verificar si esto es válido?
                 if (provincia === "Ciudad Autónoma de Buenos Aires") {
-                    createOptions([{ id: "5001", nombre: "CIUDAD AUTONOMA DE BUENOS AIRES", partido: "", cp: "" }], listaLocalidades);
+                    createOptions([{ id: "5001", nombre: "CIUDAD AUTONOMA DE BUENOS AIRES", partido: "", cp: "" }], selectLocalidad);
                 } else {
                     // V. 1
                     // const url = 'https://neorepo.github.io/localidades-argentinas/by-province/' + provincia.replaceAll(" ", "") + '.json';
