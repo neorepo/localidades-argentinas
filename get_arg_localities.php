@@ -80,7 +80,7 @@ foreach ($provincias as $key => $value) {
         $response .= preg_replace('/[[:^print:]]/', '', curl_exec($curl)) . '}';
         curl_close($curl);
     
-        $fp = fopen(DOCUMENT_ROOT . $value . '.json', 'w');
+        $fp = fopen(DOCUMENT_ROOT . $value . '.json', 'wb');
         fwrite($fp, $response);
         fclose($fp);
         echo "### Listo provincia: " . $value . "\n";
