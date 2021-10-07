@@ -1,4 +1,8 @@
 $(document).ready(function () {
+    initSelect2();
+});
+
+function initSelect2() {
     $('#provincia').select2({
         width: 'resolve',
         theme: "bootstrap4",
@@ -20,4 +24,4 @@ $(document).ready(function () {
             noResults: function () { return "No se encontraron resultados"; }
         }
     });
-});
+}

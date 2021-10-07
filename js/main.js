@@ -19,6 +19,8 @@ const provincias = [
 
 d.addEventListener('DOMContentLoaded', () => {
     initChangeProvincia();
+    // En la carga del DOM desabilitamos el select de localidad (Estado inicial disabled)
+    if (selectLocalidad) { selectLocalidad.disabled = true; }
     initChangeLocalidad();
     initPreventKeyboard();
 });
@@ -47,9 +49,17 @@ function handleChangeProvincia(selectObj, objEvent) {
             provincia = selectObj.options[selectedIndex].value;
             // Válidamos que sea una provincia válida antes de continuar
             if (provincias.includes(provincia)) {
-                const url = 'https://neorepo.github.io/localidades-argentinas/by-province/' + provincia.replaceAll(" ", "") + '.json';
-                // Solicitar datos al servidor
-                sendHttpRequest('GET', url, null, loadLocalities);
+                // Verificar si esto es válido?
+                if (provincia === "Ciudad Autónoma de Buenos Aires") {
+                    createOptions([{ id: "5001", nombre: "CIUDAD AUTONOMA DE BUENOS AIRES", partido: "", cp: "" }], listaLocalidades);
+                } else {
+                    // V. 1
+                    // const url = 'https://neorepo.github.io/localidades-argentinas/by-province/' + provincia.replaceAll(" ", "") + '.json';
+                    // V. 2
+                    const url = 'https://neorepo.github.io/localidades-argentinas/by-province-v2/' + provincia + '.json';
+                    // Solicitar datos al servidor
+                    sendHttpRequest('GET', url, null, loadLocalities);
+                }
                 // Habilitamos el select de localidades
                 selectLocalidad.disabled = false;
             } else {
@@ -63,8 +73,14 @@ function handleChangeProvincia(selectObj, objEvent) {
 function loadLocalities(response) {
     // Parseamos la respuesta del servidor
     data = JSON.parse(response).localidades;
-    // Creamos opciones
-    createOptions(data, selectLocalidad);
+    if (data) {
+        // Creamos opciones
+        createOptions(data, selectLocalidad);
+    } else {
+        // Removemos las opciones del select localidades, sí las hay
+        removeOptions(selectLocalidad);
+        console.log("Algo salió mal!");
+    }
 }
 
 // Inicializar el cambio de Localidad
@@ -95,7 +111,7 @@ function createOptions(data, selectObj) {
     data.forEach(obj => {
         newOpt = d.createElement('option');
         newOpt.value = obj.id;
-        newOpt.text = obj.nombre + " (" + obj.cp + ")";
+        newOpt.text = obj.nombre + " (" + obj.partido + ")";
         try {
             fragment.add(newOpt);
         } catch (error) {
@@ -138,18 +154,11 @@ function sendHttpRequest(method, url, data, callback) {
         }
     }
     xhr.open(method, url + ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime());
-    xhr.onloadstart = function (e) {
-        openLoader();
-    }
-    xhr.onloadend = function (e) {
-        // console.log(e.loaded);
-        closeLoader();
-    }
+    xhr.onloadstart = function (e) { openLoader(); }
+    xhr.onloadend = function (e) { closeLoader(); }
     if (data && !(data instanceof FormData)) xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(data);
-    xhr.onerror = function (e) {
-        console.log("Error: " + e + " Could not load url.");
-    }
+    xhr.onerror = function (e) { console.log("Error: " + e + " Could not load url."); }
 }
 
 // Validamos el caracter que forma parte del código 3166-2
