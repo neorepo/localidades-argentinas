@@ -7,7 +7,7 @@ const selectLocalidad = d.querySelector('select#localidad');
 const backdrop = d.querySelector('.backdrop');
 
 // Variables globales
-var provincia, data;
+let provincia, data;
 
 const provincias = [
     "Buenos Aires", "Catamarca", "Chaco", "Chubut", "Ciudad Autónoma de Buenos Aires",
@@ -49,17 +49,12 @@ function handleChangeProvincia(selectObj, objEvent) {
             provincia = selectObj.options[selectedIndex].value;
             // Válidamos que sea una provincia válida antes de continuar
             if (provincias.includes(provincia)) {
-                // Verificar si esto es válido?
-                if (provincia === "Ciudad Autónoma de Buenos Aires") {
-                    createOptions([{ id: "5001", nombre: "CIUDAD AUTONOMA DE BUENOS AIRES", partido: "", cp: "" }], selectLocalidad);
-                } else {
-                    // V. 1
-                    // const url = 'https://neorepo.github.io/localidades-argentinas/by-province/' + provincia.replaceAll(" ", "") + '.json';
-                    // V. 2
-                    const url = 'https://neorepo.github.io/localidades-argentinas/by-province-v2/' + provincia + '.json';
-                    // Solicitar datos al servidor
-                    sendHttpRequest('GET', url, null, loadLocalities);
-                }
+                // V. 1
+                // const url = 'https://neorepo.github.io/localidades-argentinas/by-province/' + provincia.replaceAll(" ", "") + '.json';
+                // V. 2
+                const url = 'https://neorepo.github.io/localidades-argentinas/by-province-v2/' + provincia + '.json';
+                // Solicitar datos al servidor
+                sendHttpRequest('GET', url, null, loadLocalities);
                 // Habilitamos el select de localidades
                 selectLocalidad.disabled = false;
             } else {
