@@ -15,6 +15,17 @@
     <!-- select2-bootstrap4-theme -->
     <link href="https://raw.githack.com/ttskch/select2-bootstrap4-theme/master/dist/select2-bootstrap4.min.css"
         rel="stylesheet">
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script>
+        let map;
+        function initMap() {
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: -32.8752975, lng: -68.8448029 },
+                zoom: 8,
+            });
+        }
+    </script>
 
     <!-- Jquery -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -32,6 +43,22 @@
 
     <!-- Estilos  -->
     <link rel="stylesheet" href="css/styles.css">
+    
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+       #map {
+        height: 100%;
+      }
+      
+      /* Optional: Makes the sample page fill the window. */
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
 
     <!-- Título -->
     <title>🇦🇷 Buscador de Códigos Postales - Localidades Argentinas</title>
@@ -104,13 +131,21 @@
 
         <!-- Datos de salida -->
         <div class="text-center mt-5" id="output"></div>
+        
+        <!-- Map-->
+        <div id="map"></div>
 
     </main>
 
     <footer class="mt-auto py-3 text-center">
         <p class="small text-muted">Copyright © 2020 | Powered by Julio Cesar</p>
     </footer>
-
+    
+    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUZ2IYnXaAed8DSQpkXlsxLFCzT_aDh3Y&callback=initMap&v=weekly"
+        async></script>
+    
     <script src="js/select2.js"></script>
     <script src="js/main.js"></script>
 </body>
