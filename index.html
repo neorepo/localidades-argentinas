@@ -25,9 +25,17 @@
                 zoom: 12,
             });
             
-            var marker = new google.maps.Marker({
+            const marker = new google.maps.Marker({
                 position: { lat: -32.8752975, lng: -68.8448029 },
                 map: map
+            });
+            
+            const infowindow = new google.maps.InfoWindow({
+                content: "<p>Marker Location:" + marker.getPosition() + "</p>",
+            });
+            
+            google.maps.event.addListener(marker, "click", () => {
+                infowindow.open(map, marker);
             });
         }
     </script>
