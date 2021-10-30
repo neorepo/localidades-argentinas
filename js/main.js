@@ -25,7 +25,7 @@ d.addEventListener('DOMContentLoaded', () => {
     // En la carga del DOM desabilitamos el select de localidad (Estado inicial disabled)
     if (selectLocalidad) { selectLocalidad.disabled = true; }
     initChangeLocalidad();
-    initPreventKeyboard();
+    // initPreventKeyboard();
 });
 
 // Inicializar el cambio de Provincia
