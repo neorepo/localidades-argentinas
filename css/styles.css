@@ -3,6 +3,11 @@ label {
     margin-bottom: .25rem;
 }
 
+/* Always set the map height explicitly to define the size of the div element that contains the map. */
+#map {
+    height: 100%;
+}
+
 .output {
     border: 3px solid #37BBED;
     padding: 32px;

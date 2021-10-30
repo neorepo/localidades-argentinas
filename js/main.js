@@ -94,9 +94,35 @@ function handleChangeLocalidad(selectObj, objEvent) {
     if (selectedIndex > 0) {
         const obj = data[selectedIndex - 1];
         message += `<div class="output"><h3>${obj.nombre}, ${provincia.toUpperCase()}</h3><h4>Código postal: ${obj.cp}</h4></div>`;
+
+        // Si existen las coordenadas, mostramos el mapa
+        if (obj.latitud && obj.longitud) {
+            initMap(obj);
+        }
     }
     // Mostrar datos
     output(message);
+}
+
+let map;
+function initMap(obj) {
+    map = new google.maps.Map(document.getElementById("map"), {
+        center: { lat: obj.latitud, lng: obj.longitud },
+        zoom: 12,
+    });
+
+    const marker = new google.maps.Marker({
+        position: { lat: obj.latitud, lng: obj.longitud },
+        map: map
+    });
+
+    const infowindow = new google.maps.InfoWindow({
+        content: "<p>Marker Location:" + marker.getPosition() + "</p>",
+    });
+
+    google.maps.event.addListener(marker, "click", () => {
+        infowindow.open(map, marker);
+    });
 }
 
 // Crea opciones en objetos select

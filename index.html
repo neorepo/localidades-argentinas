@@ -17,28 +17,6 @@
         rel="stylesheet">
     
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <script>
-        let map;
-        function initMap() {
-            map = new google.maps.Map(document.getElementById("map"), {
-                center: { lat: -32.8752975, lng: -68.8448029 },
-                zoom: 12,
-            });
-            
-            const marker = new google.maps.Marker({
-                position: { lat: -32.8752975, lng: -68.8448029 },
-                map: map
-            });
-            
-            const infowindow = new google.maps.InfoWindow({
-                content: "<p>Marker Location:" + marker.getPosition() + "</p>",
-            });
-            
-            google.maps.event.addListener(marker, "click", () => {
-                infowindow.open(map, marker);
-            });
-        }
-    </script>
 
     <!-- Jquery -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -56,21 +34,6 @@
 
     <!-- Estilos  -->
     <link rel="stylesheet" href="css/styles.css">
-    
-    <style>
-        /* Always set the map height explicitly to define the size of the div element that contains the map. */
-        #map {
-            height: 100%;
-        }
-        
-        /* Optional: Makes the sample page fill the window. */
-        html,
-        body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-    </style>
 
     <!-- Título -->
     <title>🇦🇷 Buscador de Códigos Postales - Localidades Argentinas</title>
@@ -145,20 +108,21 @@
         <div class="text-center mt-5" id="output"></div>
         
     </main>
+    
     <!-- Map-->
     <div class="container" id="map"></div>
     
     <footer class="mt-auto py-3 text-center">
         <p class="small text-muted">Copyright © 2020 | Powered by Julio Cesar</p>
     </footer>
+
+    <script src="js/select2.js"></script>
+    <script src="js/main.js"></script>
     
     <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
     <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUZ2IYnXaAed8DSQpkXlsxLFCzT_aDh3Y&callback=initMap&v=weekly"
         async></script>
-    
-    <script src="js/select2.js"></script>
-    <script src="js/main.js"></script>
 </body>
 
 </html>
