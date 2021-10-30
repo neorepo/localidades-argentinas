@@ -9,7 +9,8 @@ const backdrop = d.querySelector('.backdrop');
 // Variables globales
 let provincia, data;
 
-let coor = { lat: -32.8752975, lng: -68.8448029 };
+// Coordenadas -34.599722, -58.381944 Argentina
+let coor = { lat: -34.599722, lng: -58.381944 };
 
 const provincias = [
     "Buenos Aires", "Catamarca", "Chaco", "Chubut", "Ciudad Autónoma de Buenos Aires",
@@ -43,6 +44,7 @@ function handleChangeProvincia(selectObj, objEvent) {
         removeOptions(selectLocalidad);
         // Removemos datos de salida, si los hay
         output('');
+        d.querySelector("#map").innerText = "";
         // Obtenemos el índice seleccionado
         const selectedIndex = selectObj.selectedIndex;
         // Verificamos que el índice sea mayor a cero
@@ -102,6 +104,8 @@ function handleChangeLocalidad(selectObj, objEvent) {
             coor.lat = parseFloat(obj.latitud);
             coor.lng = parseFloat(obj.longitud);
             initMap();
+        } else {
+            d.querySelector("#map").innerHTML = `<div class="alert alert-warning text-center" role="alert">Sin coordenadas disponibles.</div>`;
         }
     }
     // Mostrar datos
