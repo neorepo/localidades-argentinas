@@ -9,7 +9,7 @@ const backdrop = d.querySelector('.backdrop');
 // Variables globales
 let provincia, data;
 
-let coor = { lat: -37.0170942, lng: -81.6549915 };
+let coor = { lat: -32.8752975, lng: -68.8448029 };
 
 const provincias = [
     "Buenos Aires", "Catamarca", "Chaco", "Chubut", "Ciudad Autónoma de Buenos Aires",
