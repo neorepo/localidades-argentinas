@@ -99,8 +99,8 @@ function handleChangeLocalidad(selectObj, objEvent) {
 
         // Si existen las coordenadas, mostramos el mapa
         if (obj.latitud && obj.longitud) {
-            coor.lat = parseInt(obj.latitud);
-            coor.lng = parseInt(obj.longitud);
+            coor.lat = parseFloat(obj.latitud);
+            coor.lng = parseFloat(obj.longitud);
             initMap();
         }
     }
