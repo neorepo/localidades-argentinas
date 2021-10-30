@@ -44,7 +44,7 @@ function handleChangeProvincia(selectObj, objEvent) {
         removeOptions(selectLocalidad);
         // Removemos datos de salida, si los hay
         output('');
-        d.querySelector("#map").innerText = "";
+        d.querySelector("#map").innerHTML = "";
         // Obtenemos el índice seleccionado
         const selectedIndex = selectObj.selectedIndex;
         // Verificamos que el índice sea mayor a cero
