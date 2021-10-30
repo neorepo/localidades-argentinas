@@ -9,7 +9,7 @@ const backdrop = d.querySelector('.backdrop');
 // Variables globales
 let provincia, data;
 
-// Coordenadas -34.599722, -58.381944 Argentina
+// Coordenadas -34.599722, -58.381944 República Argentina
 let coor = { lat: -34.599722, lng: -58.381944 };
 
 const provincias = [
@@ -118,7 +118,7 @@ function initMap() {
     // console.log(coor.lng);
     map = new google.maps.Map(document.getElementById("map"), {
         center: { lat: coor.lat, lng: coor.lng },
-        zoom: 12,
+        zoom: 8,
     });
 
     const marker = new google.maps.Marker({
