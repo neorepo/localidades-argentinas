@@ -118,7 +118,7 @@ function initMap() {
     // console.log(coor.lng);
     map = new google.maps.Map(document.getElementById("map"), {
         center: { lat: coor.lat, lng: coor.lng },
-        zoom: 8,
+        zoom: 12,
     });
 
     const marker = new google.maps.Marker({
