@@ -8,6 +8,13 @@ label {
     height: 100%;
 }
 
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 .output {
     border: 3px solid #37BBED;
     padding: 32px;
