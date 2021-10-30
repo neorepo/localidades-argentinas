@@ -9,7 +9,7 @@ const backdrop = d.querySelector('.backdrop');
 // Variables globales
 let provincia, data;
 
-let coor = { lat: -37.0170942, log: -81.6549915 };
+let coor = { lat: -37.0170942, lng: -81.6549915 };
 
 const provincias = [
     "Buenos Aires", "Catamarca", "Chaco", "Chubut", "Ciudad Autónoma de Buenos Aires",
@@ -99,7 +99,8 @@ function handleChangeLocalidad(selectObj, objEvent) {
 
         // Si existen las coordenadas, mostramos el mapa
         if (obj.latitud && obj.longitud) {
-            coor = { lat: obj.latitud, log: obj.longitud };
+            coor.lat = obj.latitud;
+            coor.lng = obj.longitud;
             initMap();
         }
     }
@@ -110,12 +111,12 @@ function handleChangeLocalidad(selectObj, objEvent) {
 let map;
 function initMap() {
     map = new google.maps.Map(document.getElementById("map"), {
-        center: { lat: coor.latitud, lng: coor.longitud },
+        center: { lat: coor.lat, lng: coor.lng },
         zoom: 12,
     });
 
     const marker = new google.maps.Marker({
-        position: { lat: coor.latitud, lng: coor.longitud },
+        position: { lat: coor.lat, lng: coor.lng },
         map: map
     });
 
