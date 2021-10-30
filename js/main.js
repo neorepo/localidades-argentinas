@@ -114,8 +114,8 @@ function handleChangeLocalidad(selectObj, objEvent) {
 
 let map;
 function initMap() {
-    console.log(coor.lat);
-    console.log(coor.lng);
+    // console.log(coor.lat);
+    // console.log(coor.lng);
     map = new google.maps.Map(document.getElementById("map"), {
         center: { lat: coor.lat, lng: coor.lng },
         zoom: 12,
